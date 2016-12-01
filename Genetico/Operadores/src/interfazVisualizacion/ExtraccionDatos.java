@@ -65,6 +65,17 @@ public class ExtraccionDatos
             }
         }
          objectses.add(preciosEnvase);
+         
+         sheet = workbook.getSheet(4);
+         String[][] preciosMercado = new String[sheet.getRows()-1][sheet.getColumns()];
+         for (int i = 0; i < sheet.getRows()-1; i++)
+        {
+            for (int j = 0; j < sheet.getColumns(); j++)
+            {
+                preciosMercado[i][j] = sheet.getCell(j,(i + 1)).getContents();
+            }
+        }
+         objectses.add(preciosMercado);
         
         return objectses;
     }
@@ -87,6 +98,9 @@ public class ExtraccionDatos
                     break;
                 case 3:
                     salida += "Envases \n";
+                    break;
+                case 4:
+                    salida += "Precios del mercado \n";
                     break;
             }
             for (int j = 0; j < objectses.get(i).length; j++)
