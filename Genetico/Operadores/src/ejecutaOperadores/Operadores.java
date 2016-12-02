@@ -4,7 +4,7 @@ import interfazVisualizacion.ExtraccionDatos;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import javax.swing.JFrame;
 import jxl.read.biff.BiffException;
 import operadores.combinaciones.Individuo;
@@ -46,7 +46,7 @@ public class Operadores
         MutacionInversion objMutacionInversion = new MutacionInversion();
         ExtraccionDatos objExtraccionDatos = new ExtraccionDatos();
 
-        ArrayList<Object[][]> objectses = objExtraccionDatos.extraccionFechas("C:\\Users\\IDS_J\\Desktop\\Genético\\Banco_de_datos_integrado.xls");
+        ArrayList<Object[][]> objectses = objExtraccionDatos.extraccionFechas("C:\\Users\\IDS_J\\Desktop\\AG-CENABASTO\\Genetico\\Banco_de_datos_integrado.xls");
         ArrayList<int[]> objArrayListPoblacion = new ArrayList<>();
         ArrayList<Double> objArrayListFA = new ArrayList<>();
         ArrayList<int[]> objListIndividuosSeleccionados = new ArrayList<>();
@@ -60,7 +60,7 @@ public class Operadores
 
             if (i == 0)
             {
-                objArrayListPoblacion = objIndividuo.generaPoblacionInicial(individuos, 47);
+                objArrayListPoblacion = objIndividuo.generaPoblacionInicial(individuos, 15);
             } else
             {
                 objArrayListFA.clear();

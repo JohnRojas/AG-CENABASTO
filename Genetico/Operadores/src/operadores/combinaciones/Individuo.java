@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 import jxl.read.biff.BiffException;
@@ -85,7 +86,7 @@ public class Individuo
         String op1 = "", op2 = "";
 
         op1 += String.valueOf(lEARGenes[0]) + String.valueOf(lEARGenes[1]);
-        op2 += String.valueOf(lEARGenes[21]) + String.valueOf(lEARGenes[22]);
+        op2 += String.valueOf(lEARGenes[5]) + String.valueOf(lEARGenes[6]);
 
         while ((op1.equals("11") && op2.equals("01"))
                 || (op1.equals("11") && op2.equals("10"))
@@ -99,11 +100,11 @@ public class Individuo
 
             lEARGenes[0] = objRandom.nextInt(2);
             lEARGenes[1] = objRandom.nextInt(2);
-            lEARGenes[21] = objRandom.nextInt(2);
-            lEARGenes[22] = objRandom.nextInt(2);
+            lEARGenes[5] = objRandom.nextInt(2);
+            lEARGenes[6] = objRandom.nextInt(2);
 
             op1 += String.valueOf(lEARGenes[0]) + String.valueOf(lEARGenes[1]);
-            op2 += String.valueOf(lEARGenes[21]) + String.valueOf(lEARGenes[22]);
+            op2 += String.valueOf(lEARGenes[5]) + String.valueOf(lEARGenes[6]);
         }
 
         return lEARGenes;
@@ -180,6 +181,7 @@ public class Individuo
 
         for (int p = 0; p < objArrayListPoblacion.size(); p++)
         {
+//            System.out.println("Individuo: " + p);
             /**
              * indicadores[] Es un arreglo de enteros que almacena los valores
              * relacionados para determinar la FA
@@ -196,9 +198,9 @@ public class Individuo
              */
             String[] binarios =
             {
-                "", "", "", "", "", "", "", "", "", ""
+                "", "", "", "", "", ""
             };
-            int[] indicadores = new int[10];
+            int[] indicadores = new int[6];
 
             String[] lugares =
             {
@@ -230,30 +232,18 @@ public class Individuo
                 } else if (i < 5)
                 {
                     binarios[1] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 13)
+                } else if (i < 7)
                 {
                     binarios[2] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 21)
+                } else if (i < 10)
                 {
                     binarios[3] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 23)
+                } else if (i < 12)
                 {
                     binarios[4] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 26)
+                } else if (i < 15)
                 {
                     binarios[5] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 34)
-                {
-                    binarios[6] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 42)
-                {
-                    binarios[7] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 44)
-                {
-                    binarios[8] += String.valueOf(objArrayListPoblacion.get(p)[i]);
-                } else if (i < 47)
-                {
-                    binarios[9] += String.valueOf(objArrayListPoblacion.get(p)[i]);
                 }
             }
 
@@ -264,43 +254,27 @@ public class Individuo
                 {
                     case 0:
                         oPUno = porcentajes[indicadores[0]];
-////                        System.out.println("El porcentaje asociado al producto uno es: " + oPUno);
+//                        System.out.println("El porcentaje asociado al producto uno es: " + oPUno);
                         break;
                     case 1:
                         pUno = productos[indicadores[1]];
-////                        System.out.println("El producto asociado es: " + pUno);
+//                        System.out.println("El producto asociado es: " + pUno);
                         break;
                     case 2:
-                        pCPUno = (double) indicadores[2] / 10;
-////                        System.out.println("Su precio en el campo es de: " + pCPUno);
+                        oPDos = porcentajes[indicadores[2]];
+//                        System.out.println("El porcentaje asociado al producto dos es: " + oPDos);
                         break;
                     case 3:
-                        pMPUno = (double) indicadores[3] / 10;
-////                        System.out.println("Su precio en el mercado es de: " + pMPUno);
+                        pDos = productos[indicadores[3]];
+//                        System.out.println("El producto asociado es: " + pDos);
                         break;
                     case 4:
-                        oPDos = porcentajes[indicadores[4]];
-////                        System.out.println("El porcentaje asociado al producto dos es: " + oPDos);
+                        vUtilizado = vehiculo[indicadores[4]];
+//                        System.out.println("El vehiculo utilizado es de: " + vUtilizado);
                         break;
                     case 5:
-                        pDos = productos[indicadores[5]];
-////                        System.out.println("El producto asociado es: " + pDos);
-                        break;
-                    case 6:
-                        pCPDos = (double) indicadores[6] / 10;
-////                        System.out.println("Su precio en el campo es de: " + pCPDos);
-                        break;
-                    case 7:
-                        pMPDos = (double) indicadores[7] / 10;
-////                        System.out.println("Su precio en el mercado es de: " + pMPDos);
-                        break;
-                    case 8:
-                        vUtilizado = vehiculo[indicadores[8]];
-////                        System.out.println("El vehiculo utilizado es de: " + vUtilizado);
-                        break;
-                    case 9:
-                        lProductos = lugares[indicadores[9]];
-////                        System.out.println("El lugar a donde se va es de: " + lProductos);
+                        lProductos = lugares[indicadores[5]];
+//                        System.out.println("El lugar a donde se va es de: " + lProductos);
                         break;
                 }
             }
@@ -375,8 +349,17 @@ public class Individuo
                     precioEnvaseDos = Double.parseDouble(String.valueOf(objValores.get(3)[5][1]));
                     break;
             }
-
-            flete = Double.parseDouble(String.valueOf(objValores.get(1)[indicadores[8]][indicadores[9]]));
+            
+            pMPUno = Double.parseDouble(String.valueOf(objValores.get(4)[indicadores[1]][1]));
+//            System.out.println("El precio del mercado del producto uno es: " + pMPUno);
+            pCPUno = Double.parseDouble(String.valueOf(objValores.get(5)[indicadores[1]][indicadores[5]]));
+//            System.out.println("El precio del campo del producto uno es: " + pCPUno);
+            pMPDos = Double.parseDouble(String.valueOf(objValores.get(4)[indicadores[3]][1]));
+//            System.out.println("El precio del mercado del producto dos es: " + pMPDos);
+            pCPDos = Double.parseDouble(String.valueOf(objValores.get(5)[indicadores[3]][indicadores[5]]));
+//            System.out.println("El precio del campo del producto dos es: " + pCPDos);
+            
+            flete = Double.parseDouble(String.valueOf(objValores.get(1)[indicadores[4]][indicadores[5]]));
 
 ////            System.out.println("El flete es de: " + flete);
 ////            System.out.println("Su capacidad es de: " + capacidadCarga);
@@ -442,7 +425,7 @@ public class Individuo
 
             if (i == 0)
             {
-                objArrayListPoblacion = objIndividuo.generaPoblacionInicial(individuos, 47);
+                objArrayListPoblacion = objIndividuo.generaPoblacionInicial(individuos, 15);
             } else
             {
                 objArrayListFA.clear();
