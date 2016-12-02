@@ -76,6 +76,17 @@ public class ExtraccionDatos
             }
         }
          objectses.add(preciosMercado);
+         
+         sheet = workbook.getSheet(5);
+         Double[][] preciosCampo = new Double[sheet.getRows()-1][sheet.getColumns()-1];
+         for (int i = 0; i < sheet.getRows()-1; i++)
+        {
+            for (int j = 0; j < sheet.getColumns()-1; j++)
+            {
+                preciosCampo[i][j] = Double.parseDouble(sheet.getCell((j+1),(i+1)).getContents());
+            }
+        }
+         objectses.add(preciosCampo);
         
         return objectses;
     }
@@ -88,20 +99,22 @@ public class ExtraccionDatos
             switch (i)
             {
                 case 0:
-                    salida += "Días festivos \n";
+                    salida += "Días festivos \n\n";
                     break;
                 case 1:
-                    salida += "Fletes \n";
+                    salida += "Fletes \n\n";
                     break;
                 case 2:
-                    salida += "Día de la semana \n";
+                    salida += "Día de la semana \n\n";
                     break;
                 case 3:
-                    salida += "Envases \n";
+                    salida += "Envases \n\n";
                     break;
                 case 4:
-                    salida += "Precios del mercado \n";
+                    salida += "Precios del mercado \n\n";
                     break;
+                case 5:
+                    salida += "Precios del campo \n\n";
             }
             for (int j = 0; j < objectses.get(i).length; j++)
             {
