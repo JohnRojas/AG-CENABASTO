@@ -88,6 +88,7 @@ public class Ventana extends javax.swing.JFrame
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmo genético de productos de CENABASTO");
@@ -112,7 +113,7 @@ public class Ventana extends javax.swing.JFrame
 
         jLabel1.setText("No se ha seleccionado algún archivo");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(211, 34, 780, 46);
+        jLabel1.setBounds(211, 34, 590, 46);
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -339,6 +340,10 @@ public class Ventana extends javax.swing.JFrame
         getContentPane().add(jButton3);
         jButton3.setBounds(640, 110, 150, 30);
 
+        jButton4.setText("Ver mejores individuos");
+        getContentPane().add(jButton4);
+        jButton4.setBounds(850, 30, 150, 50);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -501,6 +506,7 @@ public class Ventana extends javax.swing.JFrame
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

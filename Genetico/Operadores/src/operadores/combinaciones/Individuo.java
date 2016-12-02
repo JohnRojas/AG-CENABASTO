@@ -390,11 +390,11 @@ public class Individuo
 
         }
         
-//        for (int i = 0; i < objArrayListValoresFA.size(); i++)
-//        {
-//            System.out.print(Arrays.toString(objArrayListPoblacion.get(i)));
-//            System.out.println(" ["+String.valueOf(objArrayListValoresFA.get(i)) + "]");
-//        }
+        for (int i = 0; i < objArrayListValoresFA.size(); i++)
+        {
+            System.out.print(Arrays.toString(objArrayListPoblacion.get(i)));
+            System.out.println(" ["+String.valueOf(objArrayListValoresFA.get(i)) + "]");
+        }
 
         return objArrayListValoresFA;
     }
@@ -421,7 +421,7 @@ public class Individuo
 
         for (int i = 0; i < generaciones; i++)
         {
-            System.out.println("*******Generacion " + i + " ***********");
+            System.out.println("***********Generacion " + (i+1) + " ***********");
 
             if (i == 0)
             {
