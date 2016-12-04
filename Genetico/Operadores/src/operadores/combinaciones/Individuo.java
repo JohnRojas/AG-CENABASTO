@@ -384,7 +384,10 @@ public class Individuo
 
             if (valor < 0)
             {
-                valor = 1;
+                valor = 0;
+            }else if((oPUno + oPDos) > 100)
+            {
+                valor = 10;
             }
             objArrayListValoresFA.add(valor);
 

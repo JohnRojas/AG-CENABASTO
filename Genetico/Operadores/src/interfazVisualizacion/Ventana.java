@@ -59,8 +59,7 @@ public class Ventana extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jButton1 = new javax.swing.JButton();
@@ -102,10 +101,8 @@ public class Ventana extends javax.swing.JFrame
         getContentPane().setLayout(null);
 
         jButton1.setText("Cargar archivo de datos");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -207,10 +204,8 @@ public class Ventana extends javax.swing.JFrame
         );
 
         jButton2.setText("Iniciar");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -331,10 +326,8 @@ public class Ventana extends javax.swing.JFrame
         jLabel7.setBounds(830, 110, 170, 30);
 
         jButton3.setText("Generar fecha");
-        jButton3.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
@@ -445,7 +438,7 @@ public class Ventana extends javax.swing.JFrame
 
     /**
      * getDayOfTheWeek
-     * Método que a partir de una feha retorna el número del día en la semana
+     * Método que a partir de una fecha retorna el número del día en la semana
      * 
      * @param objDate
      * @return 
