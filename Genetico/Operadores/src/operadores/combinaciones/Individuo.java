@@ -34,15 +34,85 @@ public class Individuo
      * Constante que identifica la capacidad de peso de una camioneta Pick-up
      */
     public static final int PICK_UP = 2000;
-
+    
+    private DefaultCategoryDataset pvObjDatosFA;
+    private ArrayList<int[]> pvALPoblacionGenerada;
+    private ArrayList<Double> pvALpoblacionFA;
+    
     /**
      * Individuo 
-     * Constructor vacío
+     * Constructor que asigna los valores principales del problema
+     * @param aLPoblacion es la población generada
+     * @param aLPoblacionFA es la FA
+     * @param objDatos es el conjunto de datos a graficar
      */
-    public Individuo()
+    public Individuo(ArrayList<int[]> aLPoblacion, ArrayList<Double> aLPoblacionFA, DefaultCategoryDataset objDatos)
     {
-
+        this.pvALPoblacionGenerada = aLPoblacion;
+        this.pvALpoblacionFA = aLPoblacionFA;
+        this.pvObjDatosFA = objDatos;
     }
+
+    /**
+     * getPvObjDatosFA
+     * Método que retorna el conjunto de datos a graficar
+     * @return un conjunto de datos obtenidos
+     */
+    public DefaultCategoryDataset getPvObjDatosFA()
+    {
+        return pvObjDatosFA;
+    }
+
+    /**
+     * setPvObjDatosFA
+     * Método que establece los valores a graficar
+     * @param pvObjDatosFA 
+     */
+    public void setPvObjDatosFA(DefaultCategoryDataset pvObjDatosFA)
+    {
+        this.pvObjDatosFA = pvObjDatosFA;
+    }
+
+    /**
+     * getPvALPoblacionGenerada
+     * Método que retorna una lista de los individuos seleccionados como mejores
+     * @return un arreglo de individuos
+     */
+    public ArrayList<int[]> getPvALPoblacionGenerada()
+    {
+        return pvALPoblacionGenerada;
+    }
+
+    /**
+     * setPvALPoblacionGenerada
+     * Método que establece los valores de la población generada (FA)
+     * @param pvALPoblacionGenerada 
+     */
+    public void setPvALPoblacionGenerada(ArrayList<int[]> pvALPoblacionGenerada)
+    {
+        this.pvALPoblacionGenerada = pvALPoblacionGenerada;
+    }
+
+    /**
+     * getPvALpoblacionFA
+     * Método que retorna una lista de las FA
+     * @return una lista de FA
+     */
+    public ArrayList<Double> getPvALpoblacionFA()
+    {
+        return pvALpoblacionFA;
+    }
+
+    /**
+     * setPvALpoblacionFA
+     * Método que establece los valores de la FA
+     * @param pvALpoblacionFA 
+     */
+    public void setPvALpoblacionFA(ArrayList<Double> pvALpoblacionFA)
+    {
+        this.pvALpoblacionFA = pvALpoblacionFA;
+    }
+    
 
     /**
      * generaPoblacionInicial 
@@ -402,61 +472,121 @@ public class Individuo
         return objArrayListValoresFA;
     }
     
-    public DefaultCategoryDataset procesoGenético(int numeroGeneraciones, int tamanioPoblacion, int numeroCortes, int probMutacion, String fecha, String diaSemana, String path) throws IOException, BiffException, ParseException
+    public Individuo procesoGenético(int numeroGeneraciones, int tamanioPoblacion, int numeroCortes, int probMutacion, String fecha, String diaSemana, String path) throws IOException, BiffException, ParseException
     {
-        DefaultCategoryDataset objCategoryDataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset objCategoryDataset = new DefaultCategoryDataset(); //Creamos el objeto para graficar
         
-        int generaciones = numeroGeneraciones;
-        int individuos = tamanioPoblacion;
-        Individuo objIndividuo = new Individuo();
+        int generaciones = numeroGeneraciones; //Asignamos el número de generaciones
+        int individuos = tamanioPoblacion; //Establecemos el tamaño de la población de cada generación
+        
+        /**
+         * Generamos el conjunto de los siguientes objetos para el proceso del genético
+         *          objRuleta: Para realizar la ruleta
+         *          objMultipuntoAleatorio: Para realizar la cruza
+         *          objMutacionInversion: Para realizar las mutaciones
+         *          objExtraccionDatos: Para extraer los datos de una BD (Excel)
+         */
         SeleccionRuleta objRuleta = new SeleccionRuleta();
         CruzaMultipuntoAleatorio objMultipuntoAleatorio = new CruzaMultipuntoAleatorio();
         MutacionInversion objMutacionInversion = new MutacionInversion();
         ExtraccionDatos objExtraccionDatos = new ExtraccionDatos();
+        int[] caractMejor = null; //Creamos un arreglo estático para determinar el mejor de cada generación
 
+        /**
+         * Cargamos los datos de la BD en una Lista de Matrices de datos (de tipo Object) y mandamos la ubicación del archivo de datos
+         * Generamos la lista de la población
+         * Generamos una lista de las FA de la población
+         * Generamos una lista de los mejores individuos de cada generación
+         * Generamos una lista de las FA del mejor individuo de cada generación
+         */
         ArrayList<Object[][]> objectses = objExtraccionDatos.extraccionFechas(path);
         ArrayList<int[]> objArrayListPoblacion = new ArrayList<>();
         ArrayList<Double> objArrayListFA = new ArrayList<>();
+        ArrayList<int[]> individuosMejores = new ArrayList<>();
+        ArrayList<Double> objMejoresFA = new ArrayList<>();
+        
+        /**
+         * GENERAMOS EL OBJETO DE TIPO INDIVIDUO QUE TENDRÁ LOS VALORES NECESARIOS PARA GRAFICAR
+         */
+        Individuo objIndividuo = new Individuo(objArrayListPoblacion, objArrayListFA, objCategoryDataset);
+
+        /**
+         * Generamos el siguiente grupo de listas para realizar el proceso del algoritmo genético
+         *      objListIndices: Son los índices que maneja la seleción
+         *      objListIndividuosSeleccionados: Es para los individuos seleccionados
+         *      objListIndividuosCruzados: Es para los individuos cruzados
+         *      objListIndividuosMutados: Es para los individuos mutados
+         */
         ArrayList<int[]> objListIndividuosSeleccionados = new ArrayList<>();
         ArrayList<int[]> objListIndividuosCruzados = new ArrayList<>();
         ArrayList<int[]> objListIndividuosMutados = new ArrayList<>();
         ArrayList<int[]> objListIndices = new ArrayList<>();
 
+        /**
+         * Realizamos el proceso de cada generación
+         */
         for (int i = 0; i < generaciones; i++)
         {
             System.out.println("***********Generacion " + (i+1) + " ***********");
 
-            if (i == 0)
+            if (i == 0) //Cuando es la primera generación
             {
-                objArrayListPoblacion = objIndividuo.generaPoblacionInicial(individuos, 15);
+                objArrayListPoblacion = objIndividuo.generaPoblacionInicial(individuos, 15); //Se genera una población con números aleatorios
             } else
             {
-                objArrayListFA.clear();
+                objArrayListFA.clear(); //Cuando se trate de la segunda generación se tiene que limpiar los datos de la lista
             }
        
+            //Le asignamos una FA a cada individuo de la población de cualquier generación considerando el día de la semana y la fecha
             objArrayListFA = objIndividuo.funcionAptitud(objArrayListPoblacion, objectses, diaSemana, fecha);
            
+            /**
+             * A través del siguiente bloque de sentencias obtenemos el promedio de cada generación
+             * y también determinamos el mejor individuo de cada generación
+             */
             double mejor = 0, sumaFA = 0, promedioGen = 0;
             for (int j = 0; j < objArrayListFA.size(); j++)
             {
                 sumaFA = sumaFA + objArrayListFA.get(j);
                 if (mejor < objArrayListFA.get(j))
                 {
-                    mejor = objArrayListFA.get(j);
+                    mejor = objArrayListFA.get(j); //Actualizamos el mejor cada que encuentre un valor mayor
+                    caractMejor = objArrayListPoblacion.get(j); //Obtenemos las características del mejor individuo
                 }
             }
             
-            promedioGen = sumaFA / individuos;
+            promedioGen = sumaFA / individuos; //El promedio de cada generación se almacena en una variable
             
+            /**
+             * Imprimimos los valores correspondientes para determinar la FA y características del mejor individuo de
+             * cada generación
+             *      mejor ---- Cantidad
+             *      caractMejor ---- El individuo
+             *      promedioGen ---- Es el promedio de la generación
+             */
             System.out.println("El mejor individuo tiene: " + mejor + " de utilidades");
+            System.out.println("El mejor individuo tiene: " + Arrays.toString(caractMejor));
             System.out.println("El promedio de la generación es de: " + promedioGen);
             
+            objMejoresFA.add(mejor); //Agregamos a una lista el valor del mejor individuo de la población
+            individuosMejores.add(caractMejor); //Agregamos a una lista las características del mejor individuo de la población
+            
+            //Insertamos las FA de los mejores individuos de cada genración
             objCategoryDataset.addValue(mejor, "Mejor individuo", String.valueOf(i+1));
+            //Insertamos la FA promedio de cada genración
             objCategoryDataset.addValue(promedioGen, "Promedio población", String.valueOf(i+1));
             
+            //Limpiamos la lista de individuos seleccionados
             objListIndividuosSeleccionados.clear();
-
+            //Limpiamos la lista de los índices (números de individuos) que fueron seleccionados
             objListIndices.clear();
+            
+            /**
+             * Realizamos selección por ruleta a partir de la población generada
+             * las iteraciones serán dada por la siguiente expresión
+             * 
+             *          iteraciones = individuos/2
+             */
             for (int j = 0; j < (individuos / 2); j++)
             {
                 objListIndices.add(objRuleta.seleccionaRuleta(objArrayListFA,i));
@@ -464,29 +594,51 @@ public class Individuo
                 objListIndividuosSeleccionados.add(objArrayListPoblacion.get(objListIndices.get(j)[1]));
             }
 
-            objListIndividuosCruzados.clear();
-            ArrayList<int[]> bandera = new ArrayList<>();
+            
+            objListIndividuosCruzados.clear(); //Limpiamos la lista de los individuos cruzados
+            ArrayList<int[]> bandera = new ArrayList<>(); //Generamos una lista de tipo bandera
+            /**
+             * El siguiente ciclo presenta las iteraciones para realizar la cruza necesaria, tomando en cuenta a la población
+             * seleccionada por ruleta y son enviados al método "obtenerHijosCruza" para que puedan cruzarse
+             * La lista bandera es para que pueda recibir los los arreglos para posteriormente ingresarlos a la lista de individuos cruzados
+             */
             for (int j = 0; j < (individuos / 2); j++)
             {
                 bandera.clear();
                 bandera = objMultipuntoAleatorio.obtenerHijosCruza(objListIndividuosSeleccionados.get(j), objListIndividuosSeleccionados.get(j), numeroCortes);
-                objListIndividuosCruzados.add(bandera.get(0));
-                objListIndividuosCruzados.add(bandera.get(1));
+                objListIndividuosCruzados.add(bandera.get(0)); //Insertamos el primer hijo
+                objListIndividuosCruzados.add(bandera.get(1)); //Insertamos el segundo hijo
             }
 
-            objListIndividuosMutados.clear();
+            objListIndividuosMutados.clear(); //Limpiamos la lista de los individuos mutados
+            
+            /**
+             * Realicé el diguiente ciclo para meter a cada individuo de la población cruzada al proceso de mutación
+             * tomando en cuenta la probabilidad de mutación
+             */
             for (int j = 0; j < objListIndividuosCruzados.size(); j++)
             {
                 objListIndividuosMutados.add(objMutacionInversion.obtenerIndividuosMutados(objListIndividuosCruzados.get(j), probMutacion));
             }
        
+            /**
+             * Asignamos a cada individuo de la población a la siguiente generación
+             */
             for (int j = 0; j < objListIndividuosMutados.size(); j++)
             {
                 objArrayListPoblacion.set(j, objListIndividuosMutados.get(j));
             }
             
-        }
-        return objCategoryDataset;
+        } //Termina el proceso de iteración
+
+        /**
+         * Insertamos los siguientes valores para la graficación e interpretación de los resultados
+         */
+        objIndividuo.setPvALpoblacionFA(objMejoresFA); //Insertamos al objeto la lista de las mejores FA de cada generación
+        objIndividuo.setPvObjDatosFA(objCategoryDataset); //Insertamos los datos a graficar de cada generación al objeto
+        objIndividuo.setPvALPoblacionGenerada(individuosMejores); //Insertamos las características de los mejores individuos en cada generación 
+
+        return objIndividuo; //Retornamos el objeto
     }
 
 }

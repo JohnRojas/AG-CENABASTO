@@ -32,6 +32,7 @@ public class Ventana extends javax.swing.JFrame
     DefaultCategoryDataset objCategoryDataset = new DefaultCategoryDataset();
     String gSFechas, gSDia;
     ChartPanel Panel;
+    Individuo objIndividuo;
 
     /**
      * Creates new form Ventana
@@ -45,7 +46,7 @@ public class Ventana extends javax.swing.JFrame
         Panel = new ChartPanel(objChart);
         Panel.setBounds(1, 1, jPanel7.getWidth(), jPanel7.getHeight());
         jPanel3.setVisible(false);
-        jButton4.setVisible(false);
+//        jButton4.setVisible(false);
 
         jPanel7.add(Panel);
         jPanel7.repaint();
@@ -59,7 +60,8 @@ public class Ventana extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jButton1 = new javax.swing.JButton();
@@ -101,8 +103,10 @@ public class Ventana extends javax.swing.JFrame
         getContentPane().setLayout(null);
 
         jButton1.setText("Cargar archivo de datos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -204,8 +208,10 @@ public class Ventana extends javax.swing.JFrame
         );
 
         jButton2.setText("Iniciar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -326,8 +332,10 @@ public class Ventana extends javax.swing.JFrame
         jLabel7.setBounds(830, 110, 170, 30);
 
         jButton3.setText("Generar fecha");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton3ActionPerformed(evt);
             }
         });
@@ -335,8 +343,15 @@ public class Ventana extends javax.swing.JFrame
         jButton3.setBounds(640, 110, 150, 30);
 
         jButton4.setText("Ver mejores individuos");
+        jButton4.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4);
-        jButton4.setBounds(850, 30, 150, 50);
+        jButton4.setBounds(790, 30, 180, 50);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -420,9 +435,13 @@ public class Ventana extends javax.swing.JFrame
         jPanel7.remove(Panel);
         try
         {
-            Individuo objIndividuo = new Individuo();
-            objCategoryDataset = objIndividuo.procesoGenético(Integer.parseInt(jTFGeneraciones.getText()),Integer.parseInt(jTFTamanioPoblacion.getText()),Integer.parseInt(jTFNoCortes.getText()), Integer.parseInt(jTFProbabilidad.getText()), gSFechas, gSDia, jLabel1.getText());
-            objChart = ChartFactory.createLineChart("Gráfico de utilidades", "Generaciones", "Utilidades", objCategoryDataset, PlotOrientation.VERTICAL, true, true, false);
+            objIndividuo = new Individuo(null,null,null);
+            objIndividuo = objIndividuo.procesoGenético(Integer.parseInt(jTFGeneraciones.getText()),Integer.parseInt(jTFTamanioPoblacion.getText()),Integer.parseInt(jTFNoCortes.getText()), Integer.parseInt(jTFProbabilidad.getText()), gSFechas, gSDia, jLabel1.getText());
+            
+//            objCategoryDataset = objIndividuo.procesoGenético(Integer.parseInt(jTFGeneraciones.getText()),Integer.parseInt(jTFTamanioPoblacion.getText()),Integer.parseInt(jTFNoCortes.getText()), Integer.parseInt(jTFProbabilidad.getText()), gSFechas, gSDia, jLabel1.getText());
+//            objChart = ChartFactory.createLineChart("Gráfico de utilidades", "Generaciones", "Utilidades", objCategoryDataset, PlotOrientation.VERTICAL, true, true, false);
+
+            objChart = ChartFactory.createLineChart("Gráfico de utilidades", "Generaciones", "Utilidades", objIndividuo.getPvObjDatosFA(), PlotOrientation.VERTICAL, true, true, false);
 
             Panel = new ChartPanel(objChart);
             Panel.setBounds(1, 1, jPanel7.getWidth(), jPanel7.getHeight());
@@ -435,6 +454,13 @@ public class Ventana extends javax.swing.JFrame
             JOptionPane.showMessageDialog(this, "Error en la salida de valores " + ex.getMessage());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
+    {//GEN-HEADEREND:event_jButton4ActionPerformed
+        VtnInterpretaciones objVtnInterpreciaciones = new VtnInterpretaciones(objIndividuo);
+        objVtnInterpreciaciones.setLocationRelativeTo(null);
+        objVtnInterpreciaciones.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * getDayOfTheWeek

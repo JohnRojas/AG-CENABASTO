@@ -40,7 +40,7 @@ public class Operadores
         JFreeChart objChart;
         int generaciones = 30;
         int individuos = 30;
-        Individuo objIndividuo = new Individuo();
+        Individuo objIndividuo = new Individuo(null,null,null);
         SeleccionRuleta objRuleta = new SeleccionRuleta();
         CruzaMultipuntoAleatorio objMultipuntoAleatorio = new CruzaMultipuntoAleatorio();
         MutacionInversion objMutacionInversion = new MutacionInversion();
