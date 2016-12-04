@@ -45,6 +45,7 @@ public class Ventana extends javax.swing.JFrame
         Panel = new ChartPanel(objChart);
         Panel.setBounds(1, 1, jPanel7.getWidth(), jPanel7.getHeight());
         jPanel3.setVisible(false);
+        jButton4.setVisible(false);
 
         jPanel7.add(Panel);
         jPanel7.repaint();
