@@ -38,12 +38,145 @@ public class VtnInterpretaciones extends javax.swing.JFrame
     public String interpretacionDatos(Individuo datos)
     {
         String salida = "";
-        
-        for (int i = 0; i < datos.getPvALPoblacionGenerada().size(); i++)
+        String [] lSValores =
         {
-            salida += Arrays.toString(datos.getPvALPoblacionGenerada().get(i));
-            salida += " Tiene [" + String.valueOf(datos.getPvALpoblacionFA().get(i)) + "] ";
-            salida += "\n";
+            "","","","","",""
+        };
+        
+        int [] valores = new int[6];
+        
+//        for (int i = 0; i < datos.getPvALPoblacionGenerada().size(); i++)
+//        {
+        salida += "El individuo ";
+        salida += Arrays.toString(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size() - 1)) + " \n";
+        salida += "Tiene como FA [" + String.valueOf(datos.getPvALpoblacionFA().get(datos.getPvALPoblacionGenerada().size() - 1).shortValue()) + "] ";
+        salida += "\n";
+        
+        for (int i = 0; i < datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1).length; i++)
+        {
+            if (i < 2)
+            {
+                lSValores[0] += String.valueOf(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1)[i]);
+            }else if(i < 5)
+            {
+                lSValores[1] += String.valueOf(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1)[i]);
+            }else if (i < 7)
+            {
+                lSValores[2] += String.valueOf(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1)[i]);
+            }else if(i < 10)
+            {
+                lSValores[3] += String.valueOf(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1)[i]);
+            }else if(i < 12)
+            {
+                lSValores[4] += String.valueOf(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1)[i]);
+            }else if(i < 15)
+            {
+                lSValores[5] += String.valueOf(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1)[i]);
+            }
+        }
+        
+        for (int i = 0; i < lSValores.length; i++)
+        {
+            valores[i] = Integer.parseInt(lSValores[i], 2);
+        }
+        
+        salida += interpretaProductos(valores[0], valores[1]);
+        salida += interpretaProductos(valores[2], valores[3]);
+        
+        switch (valores[4])
+        {
+            case 0:
+                salida += "\nTienes que llevar una camioneta pick-up a ";
+                break;
+            case 1:
+                salida += "\nTienes que llevar una camioneta doble a ";
+                break;
+            case 2:
+                salida += "\nTienes que llevar un rabón a ";
+                break;
+            case 3:
+                salida += "\nTienes que llevar un torton a ";
+                break;
+        }
+        
+        switch (valores[5])
+        {
+            case 0:
+                salida += "Cuautla Morelos";
+                break;
+            case 1:
+                salida += "Sonora";
+                break;
+            case 2:
+                salida += "Hidalgo";
+                break;
+            case 3:
+                salida += "Sinaloa";
+                break;
+            case 4:
+                salida += "Zacatecas";
+                break;
+            case 5:
+                salida += "Nayarit";
+                break;
+            case 6:
+                salida += "Michoacán";
+                break;
+            case 7:
+                salida += "Guanajuato";
+                break;
+        }
+
+//        }
+
+        return salida;
+    }
+    
+    public String interpretaProductos(int proporcion, int producto)
+    {
+        String salida = "";
+        switch (proporcion)
+        {
+            case 0:
+                salida += "\nOcupa un 0% de ";
+                break;
+            case 1:
+                salida += "\nOcupa un 33% de ";
+                break;
+            case 2: 
+                salida += "\nOcupa un 66% de ";
+                break;
+            case 3:
+                salida += "\nOcupa un 100% de ";
+                break;
+        }
+        
+        switch (producto)
+        {
+            case 0:
+                salida += "Tomate rojo";
+                break;
+            case 1:
+                salida += "Tomate verde";
+                break;
+            case 2:
+                salida += "Tomate manzano verde";
+                break;
+            case 3:
+                salida += "Tomate manzano amarillo";
+                break;
+            case 4:
+                salida += "Cebolla blanca";
+                break;
+            case 5:
+                salida += "Chile jalapeño";
+                break;
+            case 6:
+                salida += "Chile poblano";
+                break;
+            case 7:
+                salida += "Chile serrano";
+                break;
         }
         
         return salida;
@@ -63,13 +196,18 @@ public class VtnInterpretaciones extends javax.swing.JFrame
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Interpretación");
+        setMaximumSize(new java.awt.Dimension(525, 230));
+        setMinimumSize(new java.awt.Dimension(525, 230));
+        setResizable(false);
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Interpretación de resultados");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -79,21 +217,21 @@ public class VtnInterpretaciones extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(200, 200, 200)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(216, 216, 216)
-                        .addComponent(jLabel1)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(70, 70, 70))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
