@@ -49,7 +49,7 @@ public class VtnInterpretaciones extends javax.swing.JFrame
 //        {
         salida += "El individuo ";
         salida += Arrays.toString(datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size() - 1)) + " \n";
-        salida += "Tiene como FA [" + String.valueOf(datos.getPvALpoblacionFA().get(datos.getPvALPoblacionGenerada().size() - 1).shortValue()) + "] ";
+        salida += "Tiene como FA [" + String.valueOf(datos.getPvALpoblacionFA().get(datos.getPvALPoblacionGenerada().size() - 1).intValue()) + "] ";
         salida += "\n";
         
         for (int i = 0; i < datos.getPvALPoblacionGenerada().get(datos.getPvALPoblacionGenerada().size()-1).length; i++)
